@@ -1,0 +1,26 @@
+{
+  "$comment": "Pre-approves the safe, local commands this kit uses so Claude can scrape on autopilot without a permission prompt each time. All entries are local-only (localhost / this folder's scripts / docker). Nothing here can reach the public internet except the scraper's own outbound calls. NOTE: `docker compose down` is allowed as an EXACT match only — `:*` would also pre-approve `down -v`, which deletes every scraped result. Data-destroying variants are denied below so they always prompt.",
+  "permissions": {
+    "allow": [
+      "Bash(docker compose up:*)",
+      "Bash(docker compose down)",
+      "Bash(docker compose stop:*)",
+      "Bash(docker compose start:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(docker ps:*)",
+      "Bash(curl http://localhost:8080:*)",
+      "Bash(curl -s http://localhost:8080:*)",
+      "Bash(curl http://127.0.0.1:8080:*)",
+      "Bash(python3 scripts/scrape.py:*)",
+      "Bash(py -3 scripts/scrape.py:*)",
+      "Bash(py scripts/scrape.py:*)",
+      "Bash(python scripts/scrape.py:*)"
+    ],
+    "deny": [
+      "Bash(docker compose down -v:*)",
+      "Bash(docker compose down --volumes:*)",
+      "Bash(docker volume rm:*)",
+      "Bash(docker volume prune:*)"
+    ]
+  }
+}
